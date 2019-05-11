@@ -33,7 +33,7 @@ public class empDataServiceImpl implements empDataService {
 		// todo jsonMap to empDataMaster and empDept
 		empDataMaster empDataMaster = new empDataMaster();
 		
-		// save
+		// todo save
 		empRepository.save(empDataMaster);
 	}
 
