@@ -31,7 +31,7 @@ public class empDataMaster implements Serializable {
 	@Column
 	private String empDeptId;
 	@Column
-	private String empSex;
+	private String empGender;
 	@Column
 	private String empPhoneNo;
 	@Column

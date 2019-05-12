@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.projectddt.model.empDataMaster;
 import com.projectddt.service.empDataService;
 
 @RestController
@@ -23,7 +24,7 @@ public class empData {
     }
 	
 	@RequestMapping(value = "/addEmp", method = RequestMethod.POST)
-	public String addEmpData(@RequestBody JsonNode empData) {
+	public String addEmpData(@RequestBody empDataMaster empData) {
         
 		empDataService.addEmpData(empData);
 		return null;

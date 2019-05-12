@@ -1,5 +1,6 @@
 package com.projectddt.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -10,31 +11,36 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.projectddt.model.empDataMaster;
-import com.projectddt.repository.empRepositoryCRUD;
 import com.projectddt.service.empDataService;
+import com.projectddt.repository.empRepositoryCRUD;
+import com.projectddt.repository.empDeptRepository;
+import com.projectddt.repository.empRepository;
+import com.projectddt.model.empDataMaster;
 
 @Service
 public class empDataServiceImpl implements empDataService {
 
 	@Autowired
-	private empRepositoryCRUD empRepository;
+	private empRepositoryCRUD empRepoCRUD;	
+	@Autowired
+	private empRepository empRepo;
+	@Autowired
+	private empDeptRepository empDeptRepo;
 
-//	@Autowired
-//	private empDeptRepository empDeptRepository;
+	public void addEmpData(empDataMaster empData) {
 
-	public void addEmpData(JsonNode empData) {
-		ObjectMapper mapper = new ObjectMapper();
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
+//		// convert JSON string to Map
+//		ObjectMapper mapper = new ObjectMapper();
+//		Map<String, Object> jsonMap = new HashMap<String, Object>();
+//		jsonMap = mapper.convertValue(empData, new TypeReference<Map<String, String>>() {});
 
-		// convert JSON string to Map
-		jsonMap = mapper.convertValue(empData, new TypeReference<Map<String, String>>() {});
+		empDataMaster findMaxEmpNo = empRepoCRUD.findTopByOrderByEmpNoDesc();
 		
-		// todo jsonMap to empDataMaster and empDept
-		empDataMaster empDataMaster = new empDataMaster();
+		empData.setEmpNo(findMaxEmpNo.getEmpNo() + 1);
+		empData.setCreateTime(new Date());
+		empData.setUpdateTime(new Date());
 		
-		// todo save
-		empRepository.save(empDataMaster);
+		empRepoCRUD.save(empData);
 	}
 
 }
