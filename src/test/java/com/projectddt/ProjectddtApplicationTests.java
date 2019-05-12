@@ -10,19 +10,18 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.projectddt.repository.empRepositoryCRUD;
-import com.projectddt.service.empDataService;
+import com.projectddt.service.EmpDataService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProjectddtApplicationTests {
 
-	@Mock
-	private empDataService aaa;
-	
-	@Mock
-	private empRepositoryCRUD bbb;
-	
+//	@Mock
+//	private empDataService aaa;
+//	
+//	@Mock
+//	private empRepositoryCRUD bbb;
+//	
 	@Test
 	public void contextLoads() {
 		

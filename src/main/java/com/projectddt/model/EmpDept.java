@@ -15,17 +15,16 @@ import java.io.Serializable;
 @Builder
 @Entity
 @Table(name = "EMP_DEPT")
-public class empDept implements Serializable {
+public class EmpDept implements Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "emp_dept_id", unique = true)
 	private String empDeptId;
-	@Column
+	@Column(name = "emp_dept_name")
 	private String empDeptName;
 
 }
