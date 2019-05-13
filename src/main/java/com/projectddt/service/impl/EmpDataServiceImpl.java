@@ -1,16 +1,22 @@
 package com.projectddt.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.projectddt.service.EmpDataService;
+import com.projectddt.vo.EmpSearchVo;
 
 import lombok.Synchronized;
 
@@ -91,25 +97,27 @@ public class EmpDataServiceImpl implements EmpDataService {
 		}		
 	}
 
-//	@Override
-//	public Page<EmployeeResultVo> getEmployee(EmployeeQueryVo employeeQueryVo,Pageable pageable) throws BusinessLogicException {
-//		Page<Employee> pageRecords = employeeRepository.searchEmployeeByPage(employeeQueryVo, pageable);
-//		List<EmployeeResultVo> infos = pageRecords.getContent().stream().map(record ->{
-//			return EmployeeResultVo.builder()
-//					.employeeId(record.getEmployeeId())
-//					.employeeName(record.getEmployeeName())
-//					.gender(record.getGender().toString())
-//					.phone(record.getPhone())
-//					.address(record.getAddress())
-//					.age(record.getAge())
-//					.createTime(record.getCreateTime().toString())
-//					.updateTime(record.getUpdateTime().toString())
-//					.departmentId(null != record.getDepartment() ? record.getDepartment().getDepartmentId() : null)
-//					.departmentName(null != record.getDepartment() ? record.getDepartment().getDepartmentName() : null)
-//					.build();
-//		}).collect(Collectors.toList());
-//		return new PageImpl<>(infos, pageable, pageRecords.getTotalElements());
-//	}
+	@Override
+	public Page<EmpSearchVo> findEmpDataByPage(EmpSearchVo empSearchVo, Pageable pageableSetting) throws BusinessLogicException {
+		
+		Page<EmpDataMaster> result = empRepo.findEmpDataByPage(empSearchVo, pageableSetting);
+		
+		List<EmpSearchVo> resultList = result.getContent().stream().map(model ->{
+			return EmpSearchVo.builder()
+					.empNo(model.getEmpNo())
+					.empName(model.getEmpName())
+					.empGender(model.getEmpGender())
+					.empPhoneNo(model.getEmpPhoneNo())
+					.empAddress(model.getEmpAddress())
+					.empAge(model.getEmpAge())
+					.createTime(model.getCreateTime().toString())
+					.updateTime(model.getUpdateTime().toString())
+					.empDeptId(null != model.getEmpDept() ? model.getEmpDept().getEmpDeptId() : null)
+					.empDeptName(null != model.getEmpDept() ? model.getEmpDept().getEmpDeptName() : null)
+					.build();
+		}).collect(Collectors.toList());
+		return new PageImpl<>(resultList, pageableSetting, result.getTotalElements());
+	}
 	
 	@Override
     public boolean deptExists(String deptId) {

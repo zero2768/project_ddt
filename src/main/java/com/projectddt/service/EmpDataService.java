@@ -2,8 +2,12 @@ package com.projectddt.service;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.projectddt.exception.BusinessLogicException;
 import com.projectddt.model.EmpDataMaster;
+import com.projectddt.vo.EmpSearchVo;
 
 public interface EmpDataService {
 	
@@ -27,15 +31,15 @@ public interface EmpDataService {
 	 */
 	void deleteEmpData(Integer empNo) throws BusinessLogicException;
 
-//	/**
-//	 * query員工ByPage
-//	 * @param employeeQueryVo
-//	 * @param pageable
-//	 * @return
-//	 * @throws BusinessLogicException
-//	 */
-//	Page<EmployeeResultVo> getEmployee(EmployeeQueryVo employeeQueryVo,Pageable pageable) throws BusinessLogicException;
-//
+	/**
+	 * query員工ByPage
+	 * @param EmpSearchVo
+	 * @param pageable
+	 * @return
+	 * @throws BusinessLogicException
+	 */
+	Page<EmpSearchVo> findEmpDataByPage(EmpSearchVo empSearchVo, Pageable pageableSetting) throws BusinessLogicException;
+
 	/**
 	 * 	判斷部門是否存在
 	 * @param deptId

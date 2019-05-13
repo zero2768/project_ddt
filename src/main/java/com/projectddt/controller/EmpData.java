@@ -1,6 +1,10 @@
 package com.projectddt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projectddt.exception.BusinessLogicException;
 import com.projectddt.model.EmpDataMaster;
 import com.projectddt.service.EmpDataService;
+import com.projectddt.vo.EmpSearchVo;
 
 @RestController
 @RequestMapping("/empData")
@@ -71,18 +76,18 @@ public class EmpData {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-//	/**
-//	 * 	查詢員工資料 ByPage
-//	 * @param departmentVo
-//	 * @return
-//	 * @throws BusinessLogicException 
-//	 */
-//	@RequestMapping(value = "/query/queryEmpByPage", method = RequestMethod.POST)
-//	public HttpEntity<Page<EmployeeResultVo>> searchEmployeeByPage(@RequestBody EmployeeQueryVo employeeQueryVo,
-//            Pageable pageable) throws BusinessLogicException {
-//		//前端傳入當前頁數(PageNumber,預設首頁),後端寫死每頁頁數10頁(需求) 並利用EmployeeId做排序(ASC)
-//		Pageable customPageable = new PageRequest(pageable.getPageNumber(),10, Sort.Direction.ASC,"employeeId");
-//		return new ResponseEntity<>(empDataService.getEmployee(employeeQueryVo,customPageable),HttpStatus.CREATED);
-//	}
+	/**
+	 * 	查詢員工資料 ByPage
+	 * @param EmpSearchVo
+	 * @return
+	 * @throws BusinessLogicException 
+	 */
+	@PostMapping(value = "/find/findEmpDataByPage")
+	public HttpEntity<Page<EmpSearchVo>> findEmpDataByPage(@RequestBody EmpSearchVo empSearchVo,
+            Pageable pageable) throws BusinessLogicException {
+		//當前需求每頁10筆
+		Pageable pageableSetting = new PageRequest(pageable.getPageNumber(), 10, Sort.Direction.ASC, "empNo");
+		return new ResponseEntity<>(empDataService.findEmpDataByPage(empSearchVo, pageableSetting),HttpStatus.CREATED);
+	}
 
 }
