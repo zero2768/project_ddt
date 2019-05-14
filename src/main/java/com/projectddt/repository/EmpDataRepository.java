@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import com.projectddt.model.EmpDataMaster;
 import com.projectddt.vo.EmpSearchVo;
 
-public interface EmpRepository extends JpaRepository<EmpDataMaster, Integer> {
+public interface EmpDataRepository extends JpaRepository<EmpDataMaster, Integer> {
 	
 	Optional<EmpDataMaster> findByEmpNo(Integer empNo);
 	

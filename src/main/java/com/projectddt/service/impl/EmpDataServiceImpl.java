@@ -20,7 +20,7 @@ import com.projectddt.vo.EmpSearchVo;
 
 import lombok.Synchronized;
 
-import com.projectddt.repository.EmpRepository;
+import com.projectddt.repository.EmpDataRepository;
 import com.projectddt.repository.EmpDeptRepository;
 import com.projectddt.exception.BusinessLogicException;
 import com.projectddt.model.EmpDataMaster;
@@ -29,15 +29,9 @@ import com.projectddt.model.EmpDataMaster;
 public class EmpDataServiceImpl implements EmpDataService {
 
 	@Autowired
-	private EmpRepository empRepo;
+	private EmpDataRepository empRepo;
 	@Autowired
 	private EmpDeptRepository empDeptRepo;
-
-//    @Autowired
-//    public EmployeeServiceImpl(EmployeeRepository employeeRepository,DepartmentRepository departmentRepository) {
-//    	this.employeeRepository = employeeRepository;
-//        this.departmentRepository = departmentRepository;
-//    }
 
 	@Override
 	@Transactional
@@ -45,6 +39,8 @@ public class EmpDataServiceImpl implements EmpDataService {
 	public void addEmpData(EmpDataMaster empData) throws BusinessLogicException {
 		// 判斷部門資料是否存在
 		if (this.deptExists(empData.getEmpDeptId())) {
+			
+			empData.setEmpGender(this.genderFilter(empData.getEmpGender()));
 			empData.setCreateTime(LocalDateTime.now());
 			empData.setUpdateTime(LocalDateTime.now());
 			
@@ -65,10 +61,10 @@ public class EmpDataServiceImpl implements EmpDataService {
 			EmpDataMaster returnEmpData = existsEmp.get();
 			// 判斷部門資料是否存在
 			if (this.deptExists(empData.getEmpDeptId())) {
-//				empData = transformEmpData(empData, empDataVo);
+
 				returnEmpData.setEmpDeptId(StringUtils.isEmpty(empData.getEmpDeptId()) ? returnEmpData.getEmpDeptId() : empData.getEmpDeptId());
 				returnEmpData.setEmpName(StringUtils.isEmpty(empData.getEmpName()) ? returnEmpData.getEmpName() : empData.getEmpName());
-				returnEmpData.setEmpGender(StringUtils.isEmpty(empData.getEmpGender()) ? returnEmpData.getEmpGender() : empData.getEmpGender());
+				returnEmpData.setEmpGender(StringUtils.isEmpty(empData.getEmpGender()) ? returnEmpData.getEmpGender() : this.genderFilter(empData.getEmpGender()));
 				returnEmpData.setEmpPhoneNo(StringUtils.isEmpty(empData.getEmpPhoneNo()) ? returnEmpData.getEmpPhoneNo() : empData.getEmpPhoneNo());
 				returnEmpData.setEmpAddress(StringUtils.isEmpty(empData.getEmpAddress()) ? returnEmpData.getEmpAddress() : empData.getEmpAddress());
 				returnEmpData.setEmpAge(null != empData.getEmpAge() ? returnEmpData.getEmpAge() : empData.getEmpAge());
@@ -118,10 +114,23 @@ public class EmpDataServiceImpl implements EmpDataService {
 		}).collect(Collectors.toList());
 		return new PageImpl<>(resultList, pageableSetting, result.getTotalElements());
 	}
+
+	private String genderFilter(String empGender) {
+		
+		switch(empGender.toUpperCase()) {
+
+	        case "M":
+	        	return "MALE";
+	        case "F":
+	        	return "FEMALE";
+	        default:
+	        	return "OTHER";
+	    }
+	}
 	
 	@Override
-    public boolean deptExists(String deptId) {
-		return empDeptRepo.existsById(deptId);
+    public boolean deptExists(String empDeptId) {
+		return empDeptRepo.existsById(empDeptId);
 	}
 	
 	@Override
