@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.projectddt.service.EmpDataService;
+import com.projectddt.service.EmpDeptService;
 import com.projectddt.vo.EmpSearchVo;
 
 import lombok.Synchronized;
 
 import com.projectddt.repository.EmpDataRepository;
-import com.projectddt.repository.EmpDeptRepository;
 import com.projectddt.exception.BusinessLogicException;
 import com.projectddt.model.EmpDataMaster;
 
@@ -29,16 +29,16 @@ import com.projectddt.model.EmpDataMaster;
 public class EmpDataServiceImpl implements EmpDataService {
 
 	@Autowired
-	private EmpDataRepository empRepo;
+	private EmpDeptService empDeptService;
 	@Autowired
-	private EmpDeptRepository empDeptRepo;
+	private EmpDataRepository empRepo;
 
 	@Override
 	@Transactional
 	@Synchronized
 	public void addEmpData(EmpDataMaster empData) throws BusinessLogicException {
 		// 判斷部門資料是否存在
-		if (this.deptExists(empData.getEmpDeptId())) {
+		if (empDeptService.deptExists(empData.getEmpDeptId())) {
 			
 			empData.setEmpGender(this.genderFilter(empData.getEmpGender()));
 			empData.setCreateTime(LocalDateTime.now());
@@ -57,25 +57,23 @@ public class EmpDataServiceImpl implements EmpDataService {
 		// 判斷員工是否存在
 		Optional<EmpDataMaster> existsEmp = this.findByEmp(empData.getEmpNo());
 		
-		if(existsEmp.isPresent()) {
-			EmpDataMaster returnEmpData = existsEmp.get();
-			// 判斷部門資料是否存在
-			if (this.deptExists(empData.getEmpDeptId())) {
+		existsEmp.orElseThrow(() -> new BusinessLogicException("查無此員工資料", HttpStatus.NOT_FOUND));
+		
+		EmpDataMaster returnEmpData = existsEmp.get();
+		// 判斷部門資料是否存在
+		if (empDeptService.deptExists(empData.getEmpDeptId())) {
 
-				returnEmpData.setEmpDeptId(StringUtils.isEmpty(empData.getEmpDeptId()) ? returnEmpData.getEmpDeptId() : empData.getEmpDeptId());
-				returnEmpData.setEmpName(StringUtils.isEmpty(empData.getEmpName()) ? returnEmpData.getEmpName() : empData.getEmpName());
-				returnEmpData.setEmpGender(StringUtils.isEmpty(empData.getEmpGender()) ? returnEmpData.getEmpGender() : this.genderFilter(empData.getEmpGender()));
-				returnEmpData.setEmpPhoneNo(StringUtils.isEmpty(empData.getEmpPhoneNo()) ? returnEmpData.getEmpPhoneNo() : empData.getEmpPhoneNo());
-				returnEmpData.setEmpAddress(StringUtils.isEmpty(empData.getEmpAddress()) ? returnEmpData.getEmpAddress() : empData.getEmpAddress());
-				returnEmpData.setEmpAge(null != empData.getEmpAge() ? returnEmpData.getEmpAge() : empData.getEmpAge());
-				returnEmpData.setUpdateTime(LocalDateTime.now());
-				
-				empRepo.save(returnEmpData);
-			} else {
-				throw new BusinessLogicException("不存在的部門代碼", HttpStatus.NOT_FOUND);
-			}
-		}else {
-			throw new BusinessLogicException("查無此員工資料", HttpStatus.NOT_FOUND);
+			returnEmpData.setEmpDeptId(StringUtils.isEmpty(empData.getEmpDeptId()) ? returnEmpData.getEmpDeptId() : empData.getEmpDeptId());
+			returnEmpData.setEmpName(StringUtils.isEmpty(empData.getEmpName()) ? returnEmpData.getEmpName() : empData.getEmpName());
+			returnEmpData.setEmpGender(StringUtils.isEmpty(empData.getEmpGender()) ? returnEmpData.getEmpGender() : this.genderFilter(empData.getEmpGender()));
+			returnEmpData.setEmpPhoneNo(StringUtils.isEmpty(empData.getEmpPhoneNo()) ? returnEmpData.getEmpPhoneNo() : empData.getEmpPhoneNo());
+			returnEmpData.setEmpAddress(StringUtils.isEmpty(empData.getEmpAddress()) ? returnEmpData.getEmpAddress() : empData.getEmpAddress());
+			returnEmpData.setEmpAge(null != empData.getEmpAge() ? returnEmpData.getEmpAge() : empData.getEmpAge());
+			returnEmpData.setUpdateTime(LocalDateTime.now());
+			
+			empRepo.save(returnEmpData);
+		} else {
+			throw new BusinessLogicException("不存在的部門代碼", HttpStatus.NOT_FOUND);
 		}		
 	}
 
@@ -86,11 +84,9 @@ public class EmpDataServiceImpl implements EmpDataService {
 		// 判斷員工是否存在
 		Optional<EmpDataMaster> existsEmp = this.findByEmp(empNo);
 		
-		if(existsEmp.isPresent()) {
-			empRepo.delete(existsEmp.get());
-		}else {
-			throw new BusinessLogicException("查無此員工資料", HttpStatus.NOT_FOUND);
-		}		
+		existsEmp.orElseThrow(() -> new BusinessLogicException("查無此員工資料", HttpStatus.NOT_FOUND));
+		
+		empRepo.delete(existsEmp.get());
 	}
 
 	@Override
@@ -126,11 +122,6 @@ public class EmpDataServiceImpl implements EmpDataService {
 	        default:
 	        	return "OTHER";
 	    }
-	}
-	
-	@Override
-    public boolean deptExists(String empDeptId) {
-		return empDeptRepo.existsById(empDeptId);
 	}
 	
 	@Override

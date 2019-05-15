@@ -14,22 +14,22 @@ public class BusinessLogicException extends Exception {
 	public BusinessLogicException() {
 		super();
 	}
-
-	public BusinessLogicException(String message, HttpStatus httpStatus) {
+	
+	public BusinessLogicException(Throwable cause) {
+		super(cause);
+	}
+	
+	public BusinessLogicException(String message) {
 		super(message);
-		this.httpStatus = httpStatus;
 	}
 
 	public BusinessLogicException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public BusinessLogicException(String message) {
+	public BusinessLogicException(String message, HttpStatus httpStatus) {
 		super(message);
+		this.httpStatus = httpStatus;
 	}
-
-	public BusinessLogicException(Throwable cause) {
-		super(cause);
-	}
-
+	
 }

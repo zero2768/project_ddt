@@ -41,13 +41,6 @@ public interface EmpDataService {
 	Page<EmpSearchVo> findEmpDataByPage(EmpSearchVo empSearchVo, Pageable pageableSetting) throws BusinessLogicException;
 
 	/**
-	 * 	判斷部門是否存在
-	 * @param deptId
-	 * @return
-	 */
-	boolean deptExists(String deptId);
-	
-	/**
 	 * query員工資料
 	 * @param empNo
 	 * @return
