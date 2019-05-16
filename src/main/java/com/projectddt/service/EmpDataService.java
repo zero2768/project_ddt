@@ -1,5 +1,6 @@
 package com.projectddt.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,7 +17,7 @@ public interface EmpDataService {
 	 * @param EmpDataMaster
 	 * @throws BusinessLogicException 
 	 */
-	void addEmpData(EmpDataMaster empData) throws BusinessLogicException;
+	void addEmpData(List<EmpDataMaster> empDataList) throws BusinessLogicException;
 	/**
 	 * update員工資料
 	 * @param EmpDataMaster
@@ -46,5 +47,12 @@ public interface EmpDataService {
 	 * @return
 	 */
 	Optional<EmpDataMaster> findByEmp(Integer empNo);
+	
+	/**
+	 * 	判斷部門是否存在
+	 * @param empDeptId
+	 * @return
+	 */
+	boolean deptExists(String empDeptId);
 
 }

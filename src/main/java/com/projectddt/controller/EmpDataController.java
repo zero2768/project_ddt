@@ -1,5 +1,7 @@
 package com.projectddt.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,9 +44,9 @@ public class EmpDataController {
 	 * @throws BusinessLogicException 
 	 */
 	@PostMapping
-	public HttpEntity<Void> addEmpData(@RequestBody EmpDataMaster empData) throws BusinessLogicException {
+	public HttpEntity<Void> addEmpData(@RequestBody List<EmpDataMaster> empDataList) throws BusinessLogicException {
 
-		empDataService.addEmpData(empData);
+		empDataService.addEmpData(empDataList);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
@@ -86,7 +88,7 @@ public class EmpDataController {
 	public HttpEntity<Page<EmpSearchVo>> findEmpDataByPage(@RequestBody EmpSearchVo empSearchVo,
             Pageable pageable) throws BusinessLogicException {
 		//當前需求每頁10筆
-		Pageable pageableSetting = new PageRequest(pageable.getPageNumber(), 10, Sort.Direction.ASC, "empNo");
+		Pageable pageableSetting = PageRequest.of(pageable.getPageNumber(), 10, Sort.Direction.ASC, "empNo");
 		return new ResponseEntity<>(empDataService.findEmpDataByPage(empSearchVo, pageableSetting),HttpStatus.CREATED);
 	}
 

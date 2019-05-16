@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.projectddt.service.EmpDataService;
-import com.projectddt.service.EmpDeptService;
 import com.projectddt.vo.EmpSearchVo;
 
 import lombok.Synchronized;
 
 import com.projectddt.repository.EmpDataRepository;
+import com.projectddt.repository.EmpDeptRepository;
 import com.projectddt.exception.BusinessLogicException;
 import com.projectddt.model.EmpDataMaster;
 
@@ -29,24 +29,28 @@ import com.projectddt.model.EmpDataMaster;
 public class EmpDataServiceImpl implements EmpDataService {
 
 	@Autowired
-	private EmpDeptService empDeptService;
-	@Autowired
 	private EmpDataRepository empRepo;
+	
+	@Autowired
+	private EmpDeptRepository empDeptRepo;
 
 	@Override
-	@Transactional
+	@Transactional(rollbackOn=Exception.class)
 	@Synchronized
-	public void addEmpData(EmpDataMaster empData) throws BusinessLogicException {
-		// 判斷部門資料是否存在
-		if (empDeptService.deptExists(empData.getEmpDeptId())) {
-			
-			empData.setEmpGender(this.genderFilter(empData.getEmpGender()));
-			empData.setCreateTime(LocalDateTime.now());
-			empData.setUpdateTime(LocalDateTime.now());
-			
-			empRepo.save(empData);
-		} else {
-			throw new BusinessLogicException("不存在的部門代碼", HttpStatus.NOT_FOUND);
+	public void addEmpData(List<EmpDataMaster> empDataList) throws BusinessLogicException {
+		
+		for(EmpDataMaster empData : empDataList) {
+			// 判斷部門資料是否存在
+			if (this.deptExists(empData.getEmpDeptId())) {
+				
+				empData.setEmpGender(this.genderFilter(empData.getEmpGender()));
+				empData.setCreateTime(LocalDateTime.now());
+				empData.setUpdateTime(LocalDateTime.now());
+				
+				empRepo.save(empData);
+			} else {
+				throw new BusinessLogicException("不存在的部門代碼:" + empData.getEmpDeptId(), HttpStatus.NOT_FOUND);
+			}
 		}
 	}
 
@@ -61,7 +65,7 @@ public class EmpDataServiceImpl implements EmpDataService {
 		
 		EmpDataMaster returnEmpData = existsEmp.get();
 		// 判斷部門資料是否存在
-		if (empDeptService.deptExists(empData.getEmpDeptId())) {
+		if (this.deptExists(empData.getEmpDeptId())) {
 
 			returnEmpData.setEmpDeptId(StringUtils.isEmpty(empData.getEmpDeptId()) ? returnEmpData.getEmpDeptId() : empData.getEmpDeptId());
 			returnEmpData.setEmpName(StringUtils.isEmpty(empData.getEmpName()) ? returnEmpData.getEmpName() : empData.getEmpName());
@@ -127,6 +131,11 @@ public class EmpDataServiceImpl implements EmpDataService {
 	@Override
     public Optional<EmpDataMaster> findByEmp(Integer empNo) {
 		return empRepo.findByEmpNo(empNo);
+	}
+	
+	@Override
+    public boolean deptExists(String empDeptId) {
+		return empDeptRepo.existsById(empDeptId);
 	}
 
 }

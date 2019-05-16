@@ -26,7 +26,7 @@ INSERT INTO EMP_DATA_MASTER (emp_no, emp_dept_id, emp_name, emp_gender, emp_phon
 VALUES ('12', 'IX', 'Neveah', 'FEMALE', '0912345605', 'Taipei', '30', sysdate, sysdate);
 
 INSERT INTO EMP_DATA_MASTER (emp_no, emp_dept_id, emp_name, emp_gender, emp_phone_no, emp_address, emp_age, create_time, update_time)
-VALUES ('19', 'PA', 'Leyla', 'FEMALE', '0912345609', 'Tainan', '28', sysdate, sysdate);
+VALUES ('19', 'IX', 'Leyla', 'FEMALE', '0912345609', 'Tainan', '28', sysdate, sysdate);
 
 INSERT INTO EMP_DATA_MASTER (emp_no, emp_dept_id, emp_name, emp_gender, emp_phone_no, emp_address, emp_age, create_time, update_time)
 VALUES ('31', 'IT', 'Abraham', 'MALE', '0912345600', 'Taipei', '41', sysdate, sysdate);
