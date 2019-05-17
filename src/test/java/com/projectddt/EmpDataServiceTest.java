@@ -115,7 +115,7 @@ public class EmpDataServiceTest {
 		empDataService.updateEmpData(empData);
 	}
 
-	@Test(expected= BusinessLogicException.class)  //更新員工資料  - 不存在的員工部門
+	@Test(expected= BusinessLogicException.class)  //更新員工資料 - 不存在的員工部門
 	public void updateEmpDataTestEmpDeptIsNotExist() throws BusinessLogicException {
 
 		EmpDataMaster empData = new EmpDataMaster();

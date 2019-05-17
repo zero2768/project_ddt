@@ -27,7 +27,7 @@ public class EmpDeptServiceImpl implements EmpDeptService {
 		
 		if(!StringUtils.isEmpty(empDept.getEmpDeptId()) && !StringUtils.isEmpty(empDept.getEmpDeptName())) {
 			// 判斷是否為存在的部門ID
-			// 當前案例允許相同的部門Name
+			// 當前案例允許相同部門Name
 			if (!this.deptExists(empDept.getEmpDeptId())) {
 				empDeptRepo.save(empDept);
 			} else {
