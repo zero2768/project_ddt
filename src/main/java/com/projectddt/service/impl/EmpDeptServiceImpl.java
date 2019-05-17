@@ -34,7 +34,7 @@ public class EmpDeptServiceImpl implements EmpDeptService {
 				throw new BusinessLogicException("已存在的部門代碼", HttpStatus.NOT_FOUND);
 			}
 		}else {
-			throw new BusinessLogicException("部門代碼&部門名稱皆為必填", HttpStatus.NOT_FOUND);
+			throw new BusinessLogicException("部門代碼&&部門名稱皆為必填", HttpStatus.NOT_FOUND);
 		}
 	}
 
