@@ -137,7 +137,7 @@ Content-Type:application/json
 
 員工期初資料 **15** 筆
 部門期初資料 **3** 筆
-> 請參閱 \src\main\resources\ **schema.sql**
+> 參考 \src\main\resources\ **schema.sql**
 ***
 ## <font color=#00dddd>UnitTest</font>
 > **Service調用測試  - 共14項**
