@@ -12,7 +12,7 @@
 
 ## <font color=#00dddd>Functions</font>
 
-> 員工資料
+### 員工資料
 - API URL
 ```sh
 http://localhost:8080/empData/
@@ -21,7 +21,7 @@ http://localhost:8080/empData/
 ```sh
 Content-Type:application/json
 ```
-  ##### <u>新增員工資料</u>
+> <u>新增員工資料</u>
   - Http Method: ```POST ```
   - Endpoint: /empData/
   - Request Body : 
@@ -40,7 +40,7 @@ Content-Type:application/json
 > 此處設計為可接受批次新增新進員工資料
 > 單次多筆新增Transactional-rollbackOnException
 
-  ##### <u>更新員工資料</u>
+> <u>更新員工資料</u>
   - Http Method: ```PATCH ```
   - Endpoint: /empData/```{empNo}```
  - Request Body : 
@@ -54,11 +54,11 @@ Content-Type:application/json
   "empAge": 32
 }
 ```
-  ##### <u>刪除員工資料</u>
+> <u>刪除員工資料</u>
   - Http Method: ```DELETE ```
   - Endpoint: /empData/```{empNo}```
 
-  ##### <u>查詢員工資料</u>
+> <u>查詢員工資料</u>
   > 帶有動態查詢條件(**4項**)的**PostMapping**
   - Http Method: ```POST ```
   - Endpoint: /empData/```find/findEmpDataByPage```
@@ -82,7 +82,7 @@ http://localhost:8080/empDept/
 ```sh
 Content-Type:application/json
 ```
-  ##### <u>新增部門資料</u>
+> <u>新增部門資料</u>
   - Http Method: ```POST ```
   - Endpoint: /empDept/
   - Request Body : 
@@ -93,7 +93,7 @@ Content-Type:application/json
 }
 ```
 
-  ##### <u>更新部門資料</u>
+> <u>更新部門資料</u>
   - Http Method: ```PATCH ```
   - Endpoint: /empDept/```{empDeptId}```
   - Request Body : 
@@ -102,7 +102,7 @@ Content-Type:application/json
   "empDeptName": "集團民生發展中心"
 }
 ```
-  ##### <u>刪除部門資料</u>
+> <u>刪除部門資料</u>
   - Http Method: ```DELETE ```
   - Endpoint: /empDept/```{empDeptId}```
 
