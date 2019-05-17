@@ -12,7 +12,7 @@
 
 ## <font color=#00dddd>Functions</font>
 
-### 員工資料
+> 員工資料
 - API URL
 ```sh
 http://localhost:8080/empData/
