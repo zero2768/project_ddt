@@ -22,6 +22,8 @@ http://localhost:8080/empData/
 Content-Type:application/json
 ```
 > <u>新增員工資料</u>
+> 此處設計為可接受批次新增新進員工資料
+> 單次多筆新增Transactional-rollbackOnException
   - Http Method: ```POST ```
   - Endpoint: /empData/
   - Request Body : 
@@ -37,9 +39,6 @@ Content-Type:application/json
 	}
 ]
 ```
-> 此處設計為可接受批次新增新進員工資料
-> 單次多筆新增Transactional-rollbackOnException
-
 > <u>更新員工資料</u>
   - Http Method: ```PATCH ```
   - Endpoint: /empData/```{empNo}```
