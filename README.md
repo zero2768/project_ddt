@@ -1,4 +1,3 @@
-***
 ## <font color=#00dddd>Framework/DB</font>
 > Maven Project
 - Spring boot 2.1.4.RELEASE
@@ -146,4 +145,3 @@ Content-Type:application/json
   - 新增部門資料流程 : 正常(1)&異常(1) - 共**2**項
   - 更新部門資料流程 : 正常(1)&異常(1) - 共**2**項
   - 刪除部門資料流程 : 正常(1)&異常(1) - 共**2**項
-***
