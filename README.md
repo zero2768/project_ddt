@@ -65,10 +65,10 @@ Content-Type:application/json
   - Endpoint: /empData/```{empNo}```
 
 > <u>**查詢員工資料**</u>
-  > 帶有動態查詢條件(**4項**)的**PostMapping**
   - Http Method: ```POST ```
   - Endpoint: /empData/```find/findEmpDataByPage```
-  - Request Body : 
+  - Request Body :
+> 帶有動態查詢條件(**4項**)的**PostMapping**
 ```sh
 {
   "empName": "Zyire",
