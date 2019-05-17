@@ -30,7 +30,7 @@ public class EmpDeptServiceTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	@Test
+	@Test  //新增員工部門 - 成功
 	public void addEmpDeptTestSuccess() throws BusinessLogicException {
 
 		EmpDept empDept = new EmpDept();
@@ -43,7 +43,7 @@ public class EmpDeptServiceTest {
 		verify(empDeptRepo, times(1)).save(Mockito.any(EmpDept.class));
 	}
 	
-	@Test(expected = BusinessLogicException.class)
+	@Test(expected = BusinessLogicException.class)  //新增員工部門 - 已存在的員工部門
 	public void addEmpDeptTestIsExist() throws BusinessLogicException {
 
 		EmpDept empDept = new EmpDept();
@@ -55,7 +55,7 @@ public class EmpDeptServiceTest {
 		empDeptService.addEmpDept(empDept);
 	}
 
-	@Test
+	@Test  //更新員工部門 - 成功
 	public void updateEmpDeptTestSuccess() throws BusinessLogicException {
 
 		EmpDept empDept = new EmpDept();
@@ -69,7 +69,7 @@ public class EmpDeptServiceTest {
 		verify(empDeptRepo, times(1)).save(Mockito.any(EmpDept.class));
 	}
 
-	@Test(expected = BusinessLogicException.class)
+	@Test(expected = BusinessLogicException.class)  //更新員工部門 - 不存在的員工部門
 	public void updateEmpDeptTestNotExist() throws BusinessLogicException {
 
 		EmpDept empDept = new EmpDept();
@@ -81,7 +81,7 @@ public class EmpDeptServiceTest {
 		empDeptService.updateEmpDept(empDept);
 	}
 
-	@Test
+	@Test  //刪除員工部門 - 成功
 	public void deleteEmpDeptTestSuccess() throws BusinessLogicException {
 
 		String dept = "IT";
@@ -92,7 +92,7 @@ public class EmpDeptServiceTest {
 		verify(empDeptRepo, times(1)).deleteById(dept);
 	}
 
-	@Test(expected = BusinessLogicException.class)
+	@Test(expected = BusinessLogicException.class)  //刪除員工部門 - 不存在的員工部門
 	public void deleteEmpDeptTestNotExist() throws BusinessLogicException {
 		
 		String dept = "XXX";

@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.projectddt.exception.BusinessLogicException;
 import com.projectddt.model.EmpDept;
@@ -23,12 +24,17 @@ public class EmpDeptServiceImpl implements EmpDeptService {
 	@Transactional
 	@Synchronized
 	public void addEmpDept(EmpDept empDept) throws BusinessLogicException {
-		// 判斷是否為存在的部門ID
-		// 當前案例允許相同的部門Name
-		if (!this.deptExists(empDept.getEmpDeptId())) {
-			empDeptRepo.save(empDept);
-		} else {
-			throw new BusinessLogicException("已存在的部門代碼", HttpStatus.NOT_FOUND);
+		
+		if(!StringUtils.isEmpty(empDept.getEmpDeptId()) && !StringUtils.isEmpty(empDept.getEmpDeptName())) {
+			// 判斷是否為存在的部門ID
+			// 當前案例允許相同的部門Name
+			if (!this.deptExists(empDept.getEmpDeptId())) {
+				empDeptRepo.save(empDept);
+			} else {
+				throw new BusinessLogicException("已存在的部門代碼", HttpStatus.NOT_FOUND);
+			}
+		}else {
+			throw new BusinessLogicException("部門代碼&部門名稱皆為必填", HttpStatus.NOT_FOUND);
 		}
 	}
 

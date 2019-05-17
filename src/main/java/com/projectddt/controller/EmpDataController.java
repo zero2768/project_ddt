@@ -31,12 +31,6 @@ public class EmpDataController {
 	@Autowired
 	private EmpDataService empDataService;
 	
-//	@GetMapping("/hello")
-//	public String getHello() {
-//        System.out.println("he46llo");
-//        return "testNewHello";
-//    }
-	
 	/**
 	 * 	新增員工資料
 	 * @param EmpDataMaster

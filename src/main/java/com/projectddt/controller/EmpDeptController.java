@@ -25,8 +25,8 @@ public class EmpDeptController {
 	private EmpDeptService empDeptService;
 	
 	/**
-	 * 	新增員工資料
-	 * @param EmpDataMaster
+	 * 	新增員工部門資料
+	 * @param EmpDept
 	 * @return
 	 * @throws BusinessLogicException 
 	 */
@@ -38,9 +38,9 @@ public class EmpDeptController {
 	}
 
 	/**
-	 * 	更新員工資料
-	 * @param EmpDataMaster
-	 * @param empNo
+	 * 	更新員工部門資料
+	 * @param EmpDept
+	 * @param empDeptId
 	 * @return
 	 * @throws BusinessLogicException 
 	 */
@@ -53,8 +53,8 @@ public class EmpDeptController {
 	}
 
 	/**
-	 * 	刪除員工資料
-	 * @param empNo
+	 * 	刪除員工部門資料
+	 * @param empDeptId
 	 * @return
 	 * @throws BusinessLogicException 
 	 */

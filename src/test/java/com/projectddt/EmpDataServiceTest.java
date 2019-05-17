@@ -46,7 +46,7 @@ public class EmpDataServiceTest {
 	    MockitoAnnotations.initMocks(this);
 	}
 	 
-	@Test
+	@Test  //新增員工資料 - 成功
 	public void addEmpDataTestSuccess() throws BusinessLogicException {
 
 		List<EmpDataMaster> empDataList = new ArrayList<EmpDataMaster>();
@@ -65,7 +65,7 @@ public class EmpDataServiceTest {
 		verify(empRepo, times(1)).save(Mockito.any(EmpDataMaster.class));
 	}
 	
-	@Test(expected= BusinessLogicException.class) 
+	@Test(expected= BusinessLogicException.class)  //新增員工資料 - 不存在的員工部門
 	public void addEmpDataTestDeptIsNotExist() throws BusinessLogicException {
 
 		List<EmpDataMaster> empDataList = new ArrayList<EmpDataMaster>();
@@ -84,7 +84,7 @@ public class EmpDataServiceTest {
 		verify(empRepo, times(1)).save(Mockito.any(EmpDataMaster.class));
 	}
 
-	@Test
+	@Test  //更新員工資料 - 成功
 	public void updateEmpDataTestSuccess() throws BusinessLogicException {
 		
 		EmpDataMaster empData = new EmpDataMaster();
@@ -101,7 +101,7 @@ public class EmpDataServiceTest {
 		verify(empRepo, times(1)).save(Mockito.any(EmpDataMaster.class));
 	}
 	
-	@Test(expected= BusinessLogicException.class) 
+	@Test(expected= BusinessLogicException.class)  //更新員工資料 - 不存在的員工編號
 	public void updateEmpDataTestEmpNoIsNotExist() throws BusinessLogicException {
 		
 		EmpDataMaster empData = new EmpDataMaster();
@@ -115,7 +115,7 @@ public class EmpDataServiceTest {
 		empDataService.updateEmpData(empData);
 	}
 
-	@Test(expected= BusinessLogicException.class) 
+	@Test(expected= BusinessLogicException.class)  //更新員工資料  - 不存在的員工部門
 	public void updateEmpDataTestEmpDeptIsNotExist() throws BusinessLogicException {
 
 		EmpDataMaster empData = new EmpDataMaster();
@@ -129,7 +129,7 @@ public class EmpDataServiceTest {
 		empDataService.updateEmpData(empData);
 	}
 
-	@Test
+	@Test  //刪除員工資料 - 成功
 	public void deleteEmpDataTestSuccess() throws BusinessLogicException {
 
 		when(empDataService.findByEmp(1)).thenReturn(Optional.of(new EmpDataMaster()));
@@ -138,14 +138,14 @@ public class EmpDataServiceTest {
 		verify(empRepo, times(1)).delete(Mockito.any(EmpDataMaster.class));
 	}
 	
-	@Test(expected= BusinessLogicException.class) 
+	@Test(expected= BusinessLogicException.class)  //刪除員工資料 - 不存在的員工編號
 	public void deleteEmpDataTestEmpNoIsNotExist() throws BusinessLogicException {
 
 		when(empDataService.findByEmp(0)).thenReturn(Optional.empty());
 		empDataService.deleteEmpData(0);
 	}
 
-	@Test
+	@Test  //查詢員工資料使用分頁 - 成功
 	public void findEmpDataByPageTestSuccess() throws BusinessLogicException {
 
 		EmpSearchVo empSearchVo = EmpSearchVo.builder().empNo(1).empName("Zyaire")
